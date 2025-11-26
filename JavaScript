@@ -1,0 +1,120 @@
+<script>
+  // --- CLOCK ---
+  function startClock() {
+    const clock = document.getElementById('clock');
+    setInterval(() => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const displayHour = hours % 12 || 12;
+      const month = now.toLocaleString('default', { month: 'short' });
+      const day = now.getDate();
+      const year = now.getFullYear();
+      clock.innerText = `${displayHour}:${minutes} ${ampm}, ${month} ${day}, ${year}`;
+    }, 1000);
+  }
+
+  // --- MOOD TRACKER ---
+  function setMood(mood) {
+    document.getElementById('today-mood').innerText = "Today's mood: " + mood;
+    localStorage.setItem('mood', mood);
+  }
+
+  // --- HABITS ---
+  const habitList = document.querySelectorAll('#habit-list input[type="checkbox"]');
+  habitList.forEach((cb, index) => {
+    cb.addEventListener('change', () => saveHabits());
+  });
+
+  function saveHabits() {
+    const states = Array.from(habitList).map(cb => cb.checked);
+    localStorage.setItem('habits', JSON.stringify(states));
+  }
+
+  function loadHabits() {
+    const saved = JSON.parse(localStorage.getItem('habits') || '[]');
+    habitList.forEach((cb, index) => {
+      cb.checked = saved[index] || false;
+    });
+  }
+
+  // --- NOTES & MEMORIES ---
+  function saveNotes() {
+    const textarea = document.querySelector('.section:nth-of-type(2) textarea');
+    localStorage.setItem('notes', textarea.value);
+    showToast('Notes saved!');
+  }
+
+  function saveMemories() {
+    const textarea = document.querySelector('.section:nth-of-type(3) textarea');
+    localStorage.setItem('memories', textarea.value);
+    showToast('Memories saved!');
+  }
+
+  // --- GOALS ---
+  function addGoal() {
+    const input = document.getElementById('new-goal');
+    if(input.value.trim() === '') return;
+    const ul = document.getElementById('goals-list');
+    const li = document.createElement('li');
+    li.textContent = input.value;
+    ul.appendChild(li);
+    input.value = '';
+  }
+
+  // --- BOOKSHELF ---
+  const books = [
+    { title: 'Book 1', url: 'https://example.com/book1.pdf' },
+    { title: 'Book 2', url: 'https://example.com/book2.pdf' },
+    { title: 'Book 3', url: 'https://example.com/book3.pdf' },
+  ];
+
+  const bookshelf = document.querySelector('.section:nth-of-type(7) ul');
+  bookshelf.innerHTML = '';
+  books.forEach(book => {
+    const li = document.createElement('li');
+    li.textContent = book.title;
+    li.style.cursor = 'pointer';
+    li.onclick = () => window.open(book.url, '_blank');
+    bookshelf.appendChild(li);
+  });
+
+  // --- TOAST ALERT ---
+  function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.textContent = msg;
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+    toast.style.background = '#ffb6c1';
+    toast.style.color = '#fff';
+    toast.style.padding = '10px 20px';
+    toast.style.borderRadius = '12px';
+    toast.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.4s';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.style.opacity = '1', 10);
+    setTimeout(() => toast.style.opacity = '0', 2000);
+    setTimeout(() => document.body.removeChild(toast), 2500);
+  }
+
+  // --- ON LOAD ---
+  window.onload = () => {
+    startClock();
+    loadHabits();
+
+    // Load saved notes & memories
+    const savedNotes = localStorage.getItem('notes');
+    if(savedNotes) document.querySelector('.section:nth-of-type(2) textarea').value = savedNotes;
+
+    const savedMemories = localStorage.getItem('memories');
+    if(savedMemories) document.querySelector('.section:nth-of-type(3) textarea').value = savedMemories;
+
+    // Load mood
+    const savedMood = localStorage.getItem('mood');
+    if(savedMood) setMood(savedMood);
+  }
+</script>
