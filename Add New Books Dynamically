@@ -1,0 +1,3 @@
+<input type="text" id="new-book-title" placeholder="Book Title" />
+<input type="text" id="new-book-url" placeholder="Book PDF URL" />
+<button onclick="addBook()">Add Book</button>
