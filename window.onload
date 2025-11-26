@@ -1,0 +1,8 @@
+function updateMiniCalendar() {
+  const cal = document.getElementById('mini-calendar');
+  const now = new Date();
+  const options = { weekday: 'short', month: 'short', day: 'numeric' };
+  cal.innerText = now.toLocaleDateString(undefined, options);
+}
+setInterval(updateMiniCalendar, 1000); // refresh every second
+updateMiniCalendar();
