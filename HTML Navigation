@@ -1,0 +1,8 @@
+<nav style="text-align:center; margin-bottom:20px;">
+  <a href="#daily-habits">Daily Habits</a> |
+  <a href="#notes">Notes</a> |
+  <a href="#memories">Memories</a> |
+  <a href="#goals">Goals</a> |
+  <a href="#mood">Mood</a> |
+  <a href="#favorites">Favorites</a>
+</nav>
