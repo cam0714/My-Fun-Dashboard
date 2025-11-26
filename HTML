@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Fun Dashboard 🌸</title>
+
+  <!-- Cute Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Placeholder for CSS -->
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fff8f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #f4d9ff;
+      padding: 25px;
+      text-align: center;
+      border-bottom: 3px solid #e1baf7;
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Pacifico', cursive;
+      font-size: 42px;
+      color: #b24bff;
+    }
+
+    #clock {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-weight: 600;
+      color: #ff69b4;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      border-left: 8px solid #eecbff;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      color: #b24bff;
+      font-weight: 600;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .mood-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      border: 2px solid #ddd;
+      cursor: pointer;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      resize: vertical;
+    }
+
+    button {
+      background: #ffb6c1;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>My Fun Dashboard 🌸</h1>
+    <div id="clock">--:--</div>
+  </header>
+
+  <div class="container">
+
+    <!-- Daily Habits -->
+    <div class="section">
+      <h2>✨ Daily Habits</h2>
+      <ul id="habit-list">
+        <li><input type="checkbox"> 🌞 Morning Prayer</li>
+        <li><input type="checkbox"> 🧴 Skin Care Routine</li>
+        <li><input type="checkbox"> 🧹 10-Minute Cleanup</li>
+        <li><input type="checkbox"> 💧 Drink Water</li>
+      </ul>
+    </div>
+
+    <!-- Notes -->
+    <div class="section">
+      <h2>📝 My Notes</h2>
+      <textarea placeholder="Type your notes here..."></textarea>
+      <button onclick="saveNotes()">Save Notes</button>
+    </div>
+
+    <!-- Memories -->
+    <div class="section">
+      <h2>🌷 Memories</h2>
+      <textarea placeholder="Write your memories here..."></textarea>
+      <button onclick="saveMemories()">Save Memories</button>
+    </div>
+
+    <!-- Goals -->
+    <div class="section">
+      <h2>🎯 Goals</h2>
+      <ul id="goals-list">
+        <li>Short-term goal 1</li>
+        <li>Short-term goal 2</li>
+        <li>Long-term dream 1</li>
+      </ul>
+      <input type="text" id="new-goal" placeholder="Add a new goal">
+      <button onclick="addGoal()">Add Goal</button>
+    </div>
+
+    <!-- Mood Tracker -->
+    <div class="section">
+      <h2>💖 Mood Tracker</h2>
+      <p>
+        <span class="mood-circle happy" onclick="setMood('Happy')"></span> Happy  
+        <span class="mood-circle calm" onclick="setMood('Calm')"></span> Calm  
+        <span class="mood-circle excited" onclick="setMood('Excited')"></span> Excited  
+        <span class="mood-circle sad" onclick="setMood('Sad')"></span> Sad  
+      </p>
+      <p id="today-mood">Today’s mood: None</p>
+    </div>
+
+    <!-- Favorites -->
+    <div class="section">
+      <h2>⭐ Favorites</h2>
+      <ul>
+        <li>Favorite food</li>
+        <li>Favorite YouTubers</li>
+        <li>Favorite shows</li>
+      </ul>
+    </div>
+
+    <!-- Bookshelf -->
+    <div class="section">
+      <h2>📚 Bookshelf</h2>
+      <ul>
+        <li>Book 1</li>
+        <li>Book 2</li>
+        <li>Book 3</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Placeholder for JS -->
+  <script>
+    // Mood Tracker
+    function setMood(mood) {
+      document.getElementById('today-mood').innerText = "Today's mood: " + mood;
+    }
+
+    // Goals
+    function addGoal() {
+      const input = document.getElementById('new-goal');
+      if(input.value.trim() === '') return;
+      const ul = document.getElementById('goals-list');
+      const li = document.createElement('li');
+      li.textContent = input.value;
+      ul.appendChild(li);
+      input.value = '';
+    }
+
+    // Notes & Memories (localStorage)
+    function saveNotes() {
+      const textarea = document.querySelector('.section:nth-of-type(2) textarea');
+      localStorage.setItem('notes', textarea.value);
+      alert('Notes saved!');
+    }
+
+    function saveMemories() {
+      const textarea = document.querySelector('.section:nth-of-type(3) textarea');
+      localStorage.setItem('memories', textarea.value);
+      alert('Memories saved!');
+    }
+
+    // Load saved data
+    window.onload = () => {
+      const savedNotes = localStorage.getItem('notes');
+      if(savedNotes) document.querySelector('.section:nth-of-type(2) textarea').value = savedNotes;
+
+      const savedMemories = localStorage.getItem('memories');
+      if(savedMemories) document.querySelector('.section:nth-of-type(3) textarea').value = savedMemories;
+
+      startClock();
+    }
+
+    // Clock
+    function startClock() {
+      const clock = document.getElementById('clock');
+      setInterval(() => {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const displayHour = hours % 12 || 12;
+        const month = now.toLocaleString('default', { month: 'short' });
+        const day = now.getDate();
+        const year = now.getFullYear();
+        clock.innerText = `${displayHour}:${minutes} ${ampm}, ${month} ${day}, ${year}`;
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
